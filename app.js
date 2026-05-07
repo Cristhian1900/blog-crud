@@ -12,6 +12,10 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
+// ── Confiar en el proxy de Render (necesario para cookies seguras) ──
+app.set('trust proxy', 1);
+
+
 // ── Static Files ─────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,7 +32,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: 'auto', // 'auto' detecta HTTPS automáticamente con trust proxy
+    httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
   },
 }));
