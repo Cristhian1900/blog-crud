@@ -207,7 +207,9 @@ textarea.form-control-custom { min-height: 200px; resize: vertical; }
 .login-form-header { text-align: left; margin-bottom: 2rem; }
 .login-shield { display: none; }
 .login-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
-.password-toggle { color: var(--text-dim); }
+.input-group-custom { position: relative; }
+.password-toggle { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-dim); cursor: pointer; z-index: 2; }
+.password-toggle:hover { color: var(--primary); }
 
 /* ── ERROR PAGES ── */
 .error-page { text-align: center; }
