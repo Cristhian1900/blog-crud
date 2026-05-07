@@ -1,17 +1,32 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-const pool = mysql.createPool({
+// Log de configuración al arrancar
+console.log('🔌 Conectando a MySQL:', {
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 3306,
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'blog_crud',
+});
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT) || 3306,
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '1234',
   database: process.env.DB_NAME || 'blog_crud',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
   timezone: '+00:00',
+  // Necesario para MySQL 8 con Railway/hosts externos
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
+  allowPublicKeyRetrieval: true,
 });
+
+
 
 // Inicializar tablas y admin por defecto
 async function initDatabase() {
