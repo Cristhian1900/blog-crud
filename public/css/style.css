@@ -5,21 +5,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #000000;
-  --primary-dark: #333333;
-  --primary-light: #666666;
+  --primary: #111827;
+  --primary-dark: #000000;
+  --primary-light: #4b5563;
   --danger: #dc2626;
   --success: #16a34a;
   --warning: #d97706;
-  --bg: #ffffff;
+  --bg: #f4f5f7;
   --bg-card: #ffffff;
-  --bg-card-2: #f9f9f9;
-  --border: #e5e5e5;
-  --text: #171717;
-  --text-muted: #52525b;
-  --text-dim: #a1a1aa;
-  --radius: 0px;
-  --radius-sm: 0px;
+  --bg-card-2: #f9fafb;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-muted: #4b5563;
+  --text-dim: #9ca3af;
+  --radius: 4px;
+  --radius-sm: 2px;
   --shadow: none;
   --shadow-lg: none;
 }
@@ -197,8 +197,9 @@ textarea.form-control-custom { min-height: 200px; resize: vertical; }
 .btn-table-delete:hover { color: var(--danger); text-decoration: underline; }
 
 /* ── LOGIN PAGE ── */
-.login-body { background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-.login-container { width: 100%; max-width: 400px; padding: 2rem; }
+.login-body { background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; position: relative; }
+.login-flash-container { position: absolute; top: 1rem; width: 100%; max-width: 400px; z-index: 10; padding: 0 2rem; }
+.login-container { width: 100%; max-width: 400px; padding: 2rem; margin: auto; }
 .login-logo { text-align: left; margin-bottom: 2rem; }
 .login-logo-icon { display: none; }
 .login-logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
