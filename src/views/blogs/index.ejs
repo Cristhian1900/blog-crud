@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BlogsCRUD — Explora artículos y comparte tus ideas." />
+  <title><%= title %> | BlogsCRUD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<%- include('../partials/navbar') %>
+
+<div class="container mt-3">
+  <%- include('../partials/flash') %>
+</div>
+
+<!-- HERO -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content text-center">
+      <div class="hero-badge mb-3"><i class="bi bi-stars me-2"></i>Bienvenido a BlogsCRUD</div>
+      <h1 class="hero-title">Comparte tus <span class="gradient-text">ideas</span> con el mundo</h1>
+      <p class="hero-subtitle">Explora artículos interesantes, deja tu opinión y conecta con la comunidad.</p>
+      <% if (isAdmin) { %>
+        <a href="/admin/blogs/create" class="btn btn-primary-custom btn-lg mt-3">
+          <i class="bi bi-plus-circle me-2"></i>Crear nuevo blog
+        </a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- BLOGS GRID -->
+<main class="container pb-5">
+  <div class="section-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="section-title mb-1">Artículos recientes</h2>
+      <p class="section-sub"><%= blogs.length %> publicación<%= blogs.length !== 1 ? 'es' : '' %> disponible<%= blogs.length !== 1 ? 's' : '' %></p>
+    </div>
+  </div>
+
+  <% if (blogs.length === 0) { %>
+    <div class="empty-state text-center py-5">
+      <div class="empty-icon mb-4"><i class="bi bi-journal-x"></i></div>
+      <h3 class="empty-title">No hay blogs todavía</h3>
+      <p class="empty-sub">Sé el primero en publicar un artículo.</p>
+      <% if (isAdmin) { %>
+        <a href="/admin/blogs/create" class="btn btn-primary-custom mt-2">
+          <i class="bi bi-plus me-2"></i>Crear el primer blog
+        </a>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="row g-4">
+      <% blogs.forEach(blog => { %>
+        <div class="col-md-6 col-lg-4">
+          <article class="blog-card h-100">
+            <div class="blog-card-img-wrapper">
+              <% if (blog.imagen) { %>
+                <img src="<%= blog.imagen %>" alt="<%= blog.titulo %>" class="blog-card-img" loading="lazy" />
+              <% } else { %>
+                <div class="blog-card-img-placeholder">
+                  <i class="bi bi-image-fill"></i>
+                </div>
+              <% } %>
+              <div class="blog-card-overlay">
+                <a href="/blogs/<%= blog.id_blog %>" class="btn btn-sm btn-light">
+                  <i class="bi bi-eye me-1"></i>Leer
+                </a>
+              </div>
+            </div>
+            <div class="blog-card-body">
+              <div class="blog-card-meta">
+                <span class="badge-author"><i class="bi bi-person-fill me-1"></i><%= blog.autor %></span>
+                <span class="badge-comments"><i class="bi bi-chat-fill me-1"></i><%= blog.total_comentarios %></span>
+              </div>
+              <h3 class="blog-card-title">
+                <a href="/blogs/<%= blog.id_blog %>"><%= blog.titulo %></a>
+              </h3>
+              <p class="blog-card-excerpt"><%= blog.contenido.substring(0, 120) %><%= blog.contenido.length > 120 ? '...' : '' %></p>
+              <div class="blog-card-footer">
+                <span class="blog-date">
+                  <i class="bi bi-calendar3 me-1"></i>
+                  <%= new Date(blog.created_at).toLocaleDateString('es-ES', { year:'numeric', month:'short', day:'numeric' }) %>
+                </span>
+                <div class="d-flex gap-2">
+                  <a href="/blogs/<%= blog.id_blog %>" class="btn btn-sm btn-outline-primary-custom">
+                    Leer más <i class="bi bi-arrow-right ms-1"></i>
+                  </a>
+                  <% if (isAdmin) { %>
+                    <a href="/admin/blogs/<%= blog.id_blog %>/edit" class="btn btn-sm btn-icon" title="Editar">
+                      <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <form action="/admin/blogs/<%= blog.id_blog %>?_method=DELETE" method="POST" class="d-inline delete-form">
+                      <button type="submit" class="btn btn-sm btn-icon-danger" title="Eliminar">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </form>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
